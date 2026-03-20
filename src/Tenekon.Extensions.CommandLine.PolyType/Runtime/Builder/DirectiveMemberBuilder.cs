@@ -1,0 +1,38 @@
+using System.CommandLine;
+using PolyType.Abstractions;
+using Tenekon.Extensions.CommandLine.PolyType.Model;
+using Tenekon.Extensions.CommandLine.PolyType.Runtime.Invocation;
+
+namespace Tenekon.Extensions.CommandLine.PolyType.Runtime.Builder;
+
+internal sealed class DirectiveMemberBuilder(
+    IPropertyShape propertyShape,
+    DirectiveSpecModel spec,
+    CommandNamingPolicy namer)
+{
+    public DirectiveBuildResult? Build()
+    {
+        return (DirectiveBuildResult?)propertyShape.Accept(new BuilderVisitor(spec, namer));
+    }
+
+    private sealed class BuilderVisitor(DirectiveSpecModel spec, CommandNamingPolicy namer) : TypeShapeVisitor
+    {
+        public override object? VisitProperty<TDeclaringType, TPropertyType>(
+            IPropertyShape<TDeclaringType, TPropertyType> propertyShape,
+            object? state = null)
+        {
+            var name = namer.GetDirectiveName(propertyShape.Name, spec.Name);
+            var directive = new Directive(name);
+
+            Action<object, ParseResult> binder = (instance, parseResult) =>
+            {
+                var typedInstance = (TDeclaringType)instance;
+                var setter = propertyShape.GetSetter();
+                if (!DirectiveValueHelper.TryGetValue(parseResult, directive, out TPropertyType value)) return;
+                setter(ref typedInstance, value);
+            };
+
+            return new DirectiveBuildResult(directive, binder);
+        }
+    }
+}

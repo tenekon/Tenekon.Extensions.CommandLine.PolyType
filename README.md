@@ -1,11 +1,11 @@
-# Tenekon.CommandLine.Extensions.PolyType <!-- omit from toc -->
+# Tenekon.Extensions.CommandLine.PolyType <!-- omit from toc -->
 
-[![Build](https://github.com/tenekon/Tenekon.CommandLine.Extensions.PolyType/actions/workflows/coverage.yml/badge.svg?branch=main)](https://github.com/tenekon/Tenekon.CommandLine.Extensions.PolyType/actions/workflows/coverage.yml)
-[![NuGet](https://img.shields.io/nuget/v/Tenekon.CommandLine.Extensions.PolyType.svg)](https://www.nuget.org/packages/Tenekon.CommandLine.Extensions.PolyType)
-[![Codecov](https://codecov.io/gh/tenekon/Tenekon.CommandLine.Extensions.PolyType/branch/main/graph/badge.svg)](https://codecov.io/gh/tenekon/Tenekon.CommandLine.Extensions.PolyType)
-[![License](https://img.shields.io/github/license/tenekon/Tenekon.CommandLine.Extensions.PolyType.svg)](LICENSE)
+[![Build](https://github.com/tenekon/Tenekon.Extensions.CommandLine.PolyType/actions/workflows/coverage.yml/badge.svg?branch=main)](https://github.com/tenekon/Tenekon.Extensions.CommandLine.PolyType/actions/workflows/coverage.yml)
+[![NuGet](https://img.shields.io/nuget/v/Tenekon.Extensions.CommandLine.PolyType.svg)](https://www.nuget.org/packages/Tenekon.Extensions.CommandLine.PolyType)
+[![Codecov](https://codecov.io/gh/tenekon/Tenekon.Extensions.CommandLine.PolyType/branch/main/graph/badge.svg)](https://codecov.io/gh/tenekon/Tenekon.Extensions.CommandLine.PolyType)
+[![License](https://img.shields.io/github/license/tenekon/Tenekon.Extensions.CommandLine.PolyType.svg)](LICENSE)
 
-Tenekon.CommandLine.Extensions.PolyType adds an attribute-driven layer on top of System.CommandLine, powered by [PolyType shape generation](https://eiriktsarpalis.github.io/PolyType/docs/shape-providers.html). You define commands, options, and arguments with attributes, and get fast, strongly-typed binding without runtime reflection. It supports class commands and function commands and is trimming/AOT friendly.
+Tenekon.Extensions.CommandLine.PolyType adds an attribute-driven layer on top of System.CommandLine, powered by [PolyType shape generation](https://eiriktsarpalis.github.io/PolyType/docs/shape-providers.html). You define commands, options, and arguments with attributes, and get fast, strongly-typed binding without runtime reflection. It supports class commands and function commands and is trimming/AOT friendly.
 
 > [!NOTE]
 > This project was crafted in a very short time. The public API is intended to be stable, but changes **may** occur as the library matures.
@@ -13,7 +13,7 @@ Tenekon.CommandLine.Extensions.PolyType adds an attribute-driven layer on top of
 ## Install <!-- omit from toc -->
 
 ```console
-dotnet add package Tenekon.CommandLine.Extensions.PolyType
+dotnet add package Tenekon.Extensions.CommandLine.PolyType
 ```
 
 # Table of Content <!-- omit from toc -->
@@ -59,7 +59,7 @@ dotnet add package Tenekon.CommandLine.Extensions.PolyType
 
 `Program.cs`:
 ```csharp
-using Tenekon.CommandLine.Extensions.PolyType.Runtime;
+using Tenekon.Extensions.CommandLine.PolyType.Runtime;
 
 return CommandRuntime.Factory.Object
     .Create<RootCommand>(
@@ -74,8 +74,8 @@ Command type:
 ```csharp
 using PolyType;
 using PolyType.SourceGenModel;
-using Tenekon.CommandLine.Extensions.PolyType.Spec;
-using Tenekon.CommandLine.Extensions.PolyType.Runtime;
+using Tenekon.Extensions.CommandLine.PolyType.Spec;
+using Tenekon.Extensions.CommandLine.PolyType.Runtime;
 
 [GenerateShape(IncludeMethods = MethodShapeFlags.PublicInstance)]
 [CommandSpec(Description = "Root command")]
@@ -108,7 +108,7 @@ public partial class RootCommand
 Preparation:
 ```csharp
 using PolyType;
-using Tenekon.CommandLine.Extensions.PolyType.Spec;
+using Tenekon.Extensions.CommandLine.PolyType.Spec;
 
 [GenerateShapeFor(typeof(GreetCommand))]
 public partial class CliShapes;
@@ -124,7 +124,7 @@ public delegate int GreetCommand([OptionSpec] string name);
 > Function commands require a function instance. Register it via `runtime.FunctionRegistry` or provide a custom `ICommandFunctionResolver`.
 
 ```csharp
-using Tenekon.CommandLine.Extensions.PolyType.Runtime;
+using Tenekon.Extensions.CommandLine.PolyType.Runtime;
 
 var runtime = CommandRuntime.Factory.Function.Create<GreetCommand, CliShapes>(
     settings: null,
@@ -145,7 +145,7 @@ Explicit:
 ```csharp
 using PolyType;
 using PolyType.Abstractions;
-using Tenekon.CommandLine.Extensions.PolyType.Runtime;
+using Tenekon.Extensions.CommandLine.PolyType.Runtime;
 
 var shape = (IFunctionTypeShape)TypeShapeResolver.Resolve<GreetCommand>();
 var provider = shape.Provider;
@@ -384,7 +384,7 @@ var runtime = CommandRuntime.Factory.Object.Create(
 
 ```csharp
 using PolyType.Abstractions;
-using Tenekon.CommandLine.Extensions.PolyType.Model;
+using Tenekon.Extensions.CommandLine.PolyType.Model;
 
 var shape = (IObjectTypeShape)TypeShapeResolver.Resolve<RootCommand>();
 var provider = shape.Provider;

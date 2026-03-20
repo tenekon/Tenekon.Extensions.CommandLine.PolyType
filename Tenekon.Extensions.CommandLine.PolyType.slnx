@@ -1,0 +1,9 @@
+<Solution>
+    <Folder Name="/tests/">
+        <Project
+                Path="tests/Tenekon.Extensions.CommandLine.PolyType.Tests/Tenekon.Extensions.CommandLine.PolyType.Tests.csproj"/>
+    </Folder>
+    <Project
+            Path="src/Tenekon.Extensions.CommandLine.PolyType.SourceGenerator/Tenekon.Extensions.CommandLine.PolyType.SourceGenerator.csproj"/>
+    <Project Path="src/Tenekon.Extensions.CommandLine.PolyType/Tenekon.Extensions.CommandLine.PolyType.csproj"/>
+</Solution>

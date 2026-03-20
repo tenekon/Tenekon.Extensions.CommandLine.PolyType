@@ -1,3 +1,0 @@
-<Project>
-    <Import Project="$(MSBuildThisFileDirectory)../Tenekon.CommandLine.Extensions.PolyType.Common.props"/>
-</Project>

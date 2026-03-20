@@ -1,0 +1,40 @@
+using System.CommandLine;
+using PolyType.Abstractions;
+using Tenekon.Extensions.CommandLine.PolyType.Model;
+using Tenekon.Extensions.CommandLine.PolyType.Runtime.Graph;
+using Tenekon.Extensions.CommandLine.PolyType.Runtime.Invocation;
+
+namespace Tenekon.Extensions.CommandLine.PolyType.Runtime.Builder;
+
+internal sealed class DirectiveParameterBuilder(
+    IParameterShape parameterShape,
+    DirectiveSpecModel spec,
+    CommandNamingPolicy namer)
+{
+    public DirectiveParameterBuildResult? Build()
+    {
+        return (DirectiveParameterBuildResult?)parameterShape.Accept(new BuilderVisitor(spec, namer));
+    }
+
+    private sealed class BuilderVisitor(DirectiveSpecModel spec, CommandNamingPolicy namer) : TypeShapeVisitor
+    {
+        public override object? VisitParameter<TArgumentState, TParameterType>(
+            IParameterShape<TArgumentState, TParameterType> parameterShape,
+            object? state = null)
+        {
+            var name = namer.GetDirectiveName(parameterShape.Name, spec.Name);
+            var directive = new Directive(name);
+
+            var accessor = new RuntimeValueAccessor(
+                parameterShape.Name,
+                (_, parseResult) =>
+                {
+                    return DirectiveValueHelper.TryGetValue(parseResult, directive, out TParameterType value)
+                        ? value
+                        : null;
+                });
+
+            return new DirectiveParameterBuildResult(directive, accessor);
+        }
+    }
+}

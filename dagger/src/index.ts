@@ -5,7 +5,7 @@ const COVERAGE_DIR = "TestResults/coverage/";
 const COVERAGE_FILE = `${COVERAGE_DIR}coverage.cobertura.xml`;
 
 @object()
-export class TenekonCommandLineExtensionsPolyType {
+export class TenekonExtensionsCommandLinePolyType {
   @func()
   hello(shout: boolean): string {
     const message = "Hello, world"

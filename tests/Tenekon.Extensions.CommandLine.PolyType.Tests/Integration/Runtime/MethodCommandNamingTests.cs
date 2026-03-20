@@ -1,0 +1,17 @@
+using PolyType.Abstractions;
+using Shouldly;
+using Tenekon.Extensions.CommandLine.PolyType.Tests.TestModels;
+
+namespace Tenekon.Extensions.CommandLine.PolyType.Tests.Runtime;
+
+public class MethodCommandNamingTests
+{
+    [Fact]
+    public void Build_RuntimeThrowsOnDuplicateMethodCommandName()
+    {
+        var shape = (IObjectTypeShape)TypeShapeResolver.Resolve<OverloadNamedCollisionCommand>();
+        var model = CommandModelFactory.BuildFromObject(shape, shape.Provider);
+
+        Should.Throw<InvalidOperationException>(() => CommandRuntimeBuilder.Build(model, new CommandRuntimeSettings()));
+    }
+}

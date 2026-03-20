@@ -1,0 +1,46 @@
+using PolyType.Abstractions;
+using Tenekon.Extensions.CommandLine.PolyType.Model;
+using Tenekon.Extensions.CommandLine.PolyType.Runtime.FileSystem;
+using Tenekon.Extensions.CommandLine.PolyType.Runtime.Graph;
+
+namespace Tenekon.Extensions.CommandLine.PolyType.Runtime.Builder;
+
+internal sealed class ArgumentParameterBuilder(
+    IParameterShape parameterShape,
+    ArgumentSpecModel spec,
+    CommandNamingPolicy namer,
+    IFileSystem fileSystem)
+{
+    public ParameterBuildResult? Build()
+    {
+        return (ParameterBuildResult?)parameterShape.Accept(new BuilderVisitor(spec, namer, fileSystem));
+    }
+
+    private sealed class BuilderVisitor(
+        ArgumentSpecModel spec,
+        CommandNamingPolicy namer,
+        IFileSystem fileSystem)
+        : TypeShapeVisitor
+    {
+        public override object? VisitParameter<TArgumentState, TParameterType>(
+            IParameterShape<TArgumentState, TParameterType> parameterShape,
+            object? state = null)
+        {
+            var name = namer.GetArgumentName(parameterShape.Name, spec.Name);
+            var required = RequiredHelper.IsRequired(parameterShape, spec);
+            var argument = SymbolBuildHelper.CreateArgument<TParameterType>(
+                name,
+                spec,
+                namer,
+                required,
+                parameterShape.ParameterType,
+                fileSystem);
+
+            var accessor = new RuntimeValueAccessor(
+                parameterShape.Name,
+                (_, parseResult) => parseResult.GetValue(argument));
+
+            return new ParameterBuildResult(argument, accessor);
+        }
+    }
+}

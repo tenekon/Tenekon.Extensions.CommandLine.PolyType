@@ -5,6 +5,7 @@ using Tenekon.Extensions.CommandLine.PolyType.Tests.TestModels;
 
 namespace Tenekon.Extensions.CommandLine.PolyType.Tests.Model;
 
+[Collection("HandlerLog")]
 public class CommandModelBuilderTests
 {
     [Fact]

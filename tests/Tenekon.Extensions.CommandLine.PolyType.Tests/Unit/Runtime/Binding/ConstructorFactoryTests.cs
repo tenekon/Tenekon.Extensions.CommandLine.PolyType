@@ -9,6 +9,7 @@ using Tenekon.Extensions.CommandLine.PolyType.Tests.TestModels;
 
 namespace Tenekon.Extensions.CommandLine.PolyType.Tests.Runtime.Binding;
 
+[Collection("HandlerLog")]
 public partial class ConstructorFactoryTests
 {
     [Fact]

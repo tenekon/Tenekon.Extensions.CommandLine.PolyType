@@ -11,7 +11,7 @@
         <IsPackable>true</IsPackable>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <PackageId>Tenekon.Extensions.CommandLine.PolyType</PackageId>
-        <Version>1.0.0-rc.4</Version>
+        <Version>1.0.0-rc.5</Version>
         <Authors>Tenekon authors and contributors</Authors>
         <Company>Tenekon</Company>
         <Description>An extension to System.CommandLine using PolyType: attribute-driven CLI definitions with fast, strongly-typed (trimming/aot-friendly) binding.</Description>

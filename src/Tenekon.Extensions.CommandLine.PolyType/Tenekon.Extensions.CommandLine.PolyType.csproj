@@ -38,7 +38,7 @@
         <PackageReference Include="System.Collections.Immutable" Version="10.0.3"/>
         <PackageReference Include="PolyType" Version="1.1.1"/>
         <PackageReference Include="System.CommandLine" Version="2.0.3"/>
-        <PackageReference Include="Tenekon.MethodOverloads.SourceGenerator" Version="0.0.6-alpha.6">
+        <PackageReference Include="Tenekon.MethodOverloads.SourceGenerator" Version="0.0.6">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
